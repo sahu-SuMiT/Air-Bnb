@@ -72,9 +72,9 @@ const sessionOptions = {
 }
 
 
-// app.get("/",(req,res)=>{
-//     res.send("Root route working");
-// })
+app.get("/",(req,res)=>{
+    res.redirect(`/listings`);
+})
 
 app.use(session(sessionOptions));
 app.use(flash())
@@ -96,7 +96,8 @@ app.use((req,res,next)=>{
 })
 
 
-//   
+//
+   
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
