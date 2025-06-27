@@ -1,3 +1,8 @@
+// Load environment variables
+if(process.env.NODE_ENV != "production"){
+    require("dotenv").config()
+}
+
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mongoose = require("mongoose");
 const initData = require("./data.js");
@@ -8,7 +13,8 @@ const Review = require("../models/review.js");
 const mapToken = `pk.eyJ1Ijoic3VtaXQtc2FodSIsImEiOiJjbTh1NWJ2MG8wazRkMm1zamc3dnRpdDdqIn0.vitDzWoOs39rp8pmw2pmcg`;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// Use environment variable for database URL, fallback to localhost for development
+const MONGO_URL = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderlust";
 
 // Function to find geometry using Mapbox
 const findGeometry = async (location) => {
@@ -29,8 +35,8 @@ const initDb = async () => {
     try {
         console.log("Initializing database...");
 
-        // Step 1: Connect to MongoDB
-        await mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        // Step 1: Connect to MongoDB (removed deprecated options)
+        await mongoose.connect(MONGO_URL);
         console.log("Connected to DB");
 
         // Step 2: Delete existing Listings, Reviews, and Users
