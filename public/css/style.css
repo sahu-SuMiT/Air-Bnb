@@ -112,3 +112,7 @@ input{
     height:400px;
     width: 80vh;
 }
+
+a{
+    text-decoration: none;
+}
